@@ -1,187 +1,152 @@
 # Task Board
 
-> **Created:** 2026-05-11  
-> **Project:** User Authentication System  
-> **Status:** Phase 6 - QA Complete, Awaiting Deployment Approval
-
----
+Created: 2026-05-11
+Project: User Authentication System
+Status: Phase 5 - Interim Gate, Deployment Blocked Pending Critical Fix
 
 ## Project Context
 
-**From:** [project_setup/step_1_project/step_1_project.md](../project_setup/step_1_project/step_1_project.md)
+Source: `project_setup/step_1_project/step_1_project.md`
 
-- **Tech Stack:** Web (Node.js + React), Supabase
-- **Scope:** User registration, login, dashboard
-- **Target:** MVP launch in 2 weeks
+- Tech Stack: Web, Node.js, React, Supabase.
+- Scope: user registration, login, dashboard.
+- Target: MVP launch in 2 weeks.
 
----
+## Phase 1 - Requirements
 
-## Phase 1 — Requirements (PO Agent)
+Status: Completed
+Agent: PO Agent (`opus`)
 
-**Status:** ✅ Completed  
-**Agent:** PO Agent (opus)  
-**Started:** 2026-05-11 09:00  
-**Completed:** 2026-05-11 09:45
+Tasks:
 
-### Tasks
-- [x] Read project_setup/step_1_project/step_1_project.md
-- [x] Read project_setup/step_2_requirements/ (3 files)
-- [x] Write user stories with acceptance criteria
-- [x] Create project_code/documentation/user_stories.md
-- [x] Update task board
+- [x] Read `project_setup/step_1_project/step_1_project.md`.
+- [x] Read `project_setup/step_2_requirements/`.
+- [x] Write user stories and acceptance criteria.
+- [x] Write `project_code/documentation/user_stories.md`.
 
-### Deliverables
-- ✅ [project_code/documentation/user_stories.md](../project_code/documentation/user_stories.md) - 3 stories, 14 acceptance criteria
+Deliverables:
 
----
+- `project_code/documentation/user_stories.md`
 
-## Phase 2 — Design & Architecture (Parallel)
+## Phase 2 - Design And Architecture
 
-**Status:** ✅ Completed  
-**Started:** 2026-05-11 10:00  
-**Completed:** 2026-05-11 11:30
+Status: Completed
 
-### Phase 2a — TechLead Agent
+### Phase 2a - TechLead Agent
 
-**Agent:** TechLead Agent (opus)
+Agent: TechLead Agent (`opus`)
 
-#### Tasks
-- [x] Read user stories
-- [x] Design API contract (3 endpoints)
-- [x] Define data schema
-- [x] Create project_code/documentation/api_contract.md
-- [x] Update task board
+Tasks:
 
-#### Deliverables
-- ✅ [project_code/documentation/api_contract.md](../project_code/documentation/api_contract.md)
+- [x] Read user stories.
+- [x] Define API contract.
+- [x] Define data model.
+- [x] Write `project_code/documentation/api_contract.md`.
+- [x] Write `project_code/documentation/tech_design.md`.
 
-### Phase 2b — Designer Agent
+Deliverables:
 
-**Agent:** Designer Agent (sonnet)
+- `project_code/documentation/api_contract.md`
+- `project_code/documentation/tech_design.md`
 
-#### Tasks
-- [x] Read user stories
-- [x] Read design files from project_setup/step_3_design/
-- [x] Extract design tokens
-- [x] Document 3 screens (Registration, Login, Dashboard)
-- [x] Create project_code/documentation/design_spec.md
-- [x] Update task board
+### Phase 2b - Designer Agent
 
-#### Deliverables
-- ✅ [project_code/documentation/design_spec.md](../project_code/documentation/design_spec.md)
+Agent: Designer Agent (`sonnet`)
 
----
+Tasks:
 
-## Phase 3 — Implementation (DEV Agent)
+- [x] Read user stories.
+- [x] Read `project_setup/step_3_design/`.
+- [x] Extract design tokens.
+- [x] Document registration, login, and dashboard screens.
+- [x] Write `project_code/documentation/design_spec.md`.
 
-**Status:** ✅ Completed  
-**Agent:** DEV Agent (sonnet)  
-**Started:** 2026-05-11 12:00  
-**Completed:** 2026-05-11 15:30
+Deliverables:
 
-### Tasks
-- [x] Read API contract and design spec
-- [x] Set up project structure (backend + frontend)
-- [x] Implement 3 API endpoints
-- [x] Build 3 UI screens
-- [x] Write unit tests (14 tests)
-- [x] Write E2E tests (10 tests)
-- [x] Update task board
+- `project_code/documentation/design_spec.md`
 
-### Deliverables
-- ✅ project_code/backend/ - Node.js + Express API
-- ✅ project_code/frontend/ - React + Tailwind UI
-- ✅ 24 tests total
+## Phase 3 - Implementation
 
----
+Status: Completed
+Agent: DEV Agent (`sonnet`)
 
-## Phase 4 — Quality Assurance (QA Agent)
+Tasks:
 
-**Status:** ✅ Completed  
-**Agent:** QA Agent (sonnet)  
-**Started:** 2026-05-11 16:00  
-**Completed:** 2026-05-11 17:15
+- [x] Read API contract, tech design, and design spec.
+- [x] Build `project_code/backend/`.
+- [x] Build `project_code/frontend/`.
+- [x] Add unit tests.
+- [x] Add Playwright E2E tests.
+- [x] Write `project_code/documentation/dev_handoff.md`.
 
-### Tasks
-- [x] Run all unit tests locally
-- [x] Run all E2E tests locally
-- [x] Review code quality
-- [x] Test user flows manually
-- [x] Document issues found
-- [x] Create project_code/documentation/qa_report.md
-- [x] Update task board
+Deliverables:
 
-### Deliverables
-- ✅ [project_code/documentation/qa_report.md](../project_code/documentation/qa_report.md)
-- ✅ Test results: 22/24 passed (2 issues found)
+- `project_code/backend/`
+- `project_code/frontend/`
+- `project_code/documentation/dev_handoff.md`
 
-### Issues Found
-1. **Critical:** Email verification route returns 404
-2. **High:** Password reset flow times out
+## Phase 4 - QA
 
----
+Status: Failed - Critical Issue Found
+Agent: QA Agent (`sonnet`)
 
-## Phase 5 — Interim Report (Team Lead)
+Tasks:
 
-**Status:** ✅ Completed  
-**Started:** 2026-05-11 17:30  
-**Completed:** 2026-05-11 17:45
+- [x] Run backend tests locally.
+- [x] Run frontend tests locally.
+- [x] Run Playwright E2E locally.
+- [x] Review code against API contract and design spec.
+- [x] Write `project_code/documentation/qa_report.md`.
 
-### Tasks
-- [x] Compile all deliverables
-- [x] Summarize QA results
-- [x] Document known issues
-- [x] Create project_code/documentation/interim_report.md
-- [x] Request user approval for deployment
+Deliverables:
 
-### Deliverables
-- ✅ [project_code/documentation/interim_report.md](../project_code/documentation/interim_report.md)
+- `project_code/documentation/qa_report.md`
 
-### Decision Point
-**User approval required before proceeding to Phase 6 (DevOps).**
+Issues:
 
----
+1. Critical: email verification route returns 404. Status: Open.
+2. Major: password reset flow times out in test environment. Status: Open.
 
-## Phase 6 — Deployment (DevOps Agent)
+QA Assessment: FAIL
+Deployment Recommendation: BLOCK
 
-**Status:** ⏸️ Awaiting User Approval  
-**Agent:** DevOps Agent (sonnet)  
-**Next:** Push to GitHub, set up CI/CD, deploy to Vercel
+## Phase 5 - Interim Gate
 
-### Pending Tasks
-- [ ] Fix critical issue (email verification 404)
-- [ ] Push code to GitHub
-- [ ] Configure GitHub Actions CI
-- [ ] Deploy to Vercel
-- [ ] Set up environment variables
-- [ ] Create project_code/documentation/deployment.md
-- [ ] Update task board
+Status: Awaiting user decision
+Agent: Team Lead
 
----
+Tasks:
+
+- [x] Compile deliverables.
+- [x] Summarize QA results.
+- [x] Write `project_code/documentation/interim_report.md`.
+- [x] Ask user whether to fix critical issue before deployment.
+
+Decision:
+
+- Deployment is blocked while the critical email verification bug is open.
+- DevOps may run only after the critical bug is fixed and QA passes, or after
+  the user gives an explicit written override accepting the risk.
 
 ## Agent Messages
 
-| From | To | Message | Timestamp |
-|------|----|---------|-----------| 
-| Team Lead | PO Agent | Start Phase 1 - Requirements | 2026-05-11 09:00 |
-| PO Agent | TechLead Agent | User stories ready | 2026-05-11 09:45 |
-| PO Agent | Designer Agent | User stories ready | 2026-05-11 09:45 |
-| TechLead Agent | DEV Agent | API contract ready | 2026-05-11 11:15 |
-| Designer Agent | DEV Agent | Design spec ready | 2026-05-11 11:30 |
-| DEV Agent | QA Agent | Implementation complete, ready for testing | 2026-05-11 15:30 |
-| QA Agent | Team Lead | QA complete, 2 issues found (1 critical) | 2026-05-11 17:15 |
-| Team Lead | User | Interim report ready, awaiting deployment approval | 2026-05-11 17:45 |
+| Timestamp | From | To | Message |
+| --- | --- | --- | --- |
+| 2026-05-11 09:00 | Team Lead | PO Agent | Start Phase 1 requirements |
+| 2026-05-11 09:45 | Team Lead | TechLead Agent | User stories ready; start API contract |
+| 2026-05-11 09:45 | Team Lead | Designer Agent | User stories ready; start design spec |
+| 2026-05-11 11:30 | Team Lead | DEV Agent | API contract and design spec ready |
+| 2026-05-11 15:30 | Team Lead | QA Agent | Implementation complete; run QA |
+| 2026-05-11 17:15 | QA Agent | Team Lead | QA failed; 1 critical and 1 major issue |
+| 2026-05-11 17:45 | Team Lead | User | Interim report ready; deployment blocked pending decision |
 
----
+## N/A Decisions
 
-## Notes
+- State management: TechLead chose React Context for the simple MVP.
+- Email provider: DEV chose Resend for transactional email.
 
-### N/A Decisions Made
-- **State management:** TechLead chose Context API (field was N/A in project spec)
-- **Email service:** DEV chose Resend (field was N/A in .env)
+## Next Steps
 
-### Next Steps
-1. User reviews interim report
-2. User decides: deploy now or fix issues first
-3. If approved: spawn DevOps Agent for Phase 6
-
+1. Fix the critical verification route bug.
+2. Re-run QA.
+3. If QA passes, ask user for deployment approval.

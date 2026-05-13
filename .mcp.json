@@ -1,0 +1,37 @@
+{
+  "_comment": "MCP servers Claude Code loads at startup. Remove unused server blocks before starting Claude Code. Secrets and identifiers are read from .env via ${VAR} expansion where supported. Restart Claude Code after changing this file or .env.",
+  "mcpServers": {
+    "figma": {
+      "_comment": "Optional. Designer Agent uses this only when project_setup/step_3_design/ has no usable local files.",
+      "command": "npx",
+      "args": ["-y", "figma-developer-mcp", "--stdio"],
+      "env": {
+        "FIGMA_API_KEY": "${FIGMA_API_KEY}"
+      }
+    },
+    "github": {
+      "_comment": "DevOps Agent. Required for automatic repo/CI work after deployment approval. GITHUB_TOKEN must target the existing repo and allow Contents read/write, Workflows read/write, and Actions read.",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "vercel": {
+      "_comment": "DevOps Agent. Required for automatic web deploys. Keep only when web deployment is in scope. VERCEL_TOKEN, VERCEL_TEAM_SLUG, and VERCEL_PROJECT_SLUG must point to an existing Vercel project.",
+      "type": "http",
+      "url": "https://mcp.vercel.com/${VERCEL_TEAM_SLUG}/${VERCEL_PROJECT_SLUG}",
+      "headers": {
+        "Authorization": "Bearer ${VERCEL_TOKEN}"
+      }
+    },
+    "supabase": {
+      "_comment": "Optional for Supabase projects. TechLead/DEV/Flutter use this for schema inspection, migrations, and seeding. Remove if the project does not use Supabase.",
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest"],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "${SUPABASE_ACCESS_TOKEN}"
+      }
+    }
+  }
+}

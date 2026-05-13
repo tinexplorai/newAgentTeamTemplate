@@ -1,49 +1,85 @@
-CHANGE REQUEST — re-run a subset of the agent team after QA / deploy.
-
-I want to change something the team has already finished. Handle this per agent_team/workflow.md §2 step 9 (Change Request loop).
+CHANGE REQUEST - rerun a scoped subset of the agent team after QA or deployment.
 
 Process:
+
 1. Ground yourself. Read in this order:
-   - agent_team/workflow.md (§2 step 9 — the rules for this loop)
-   - project_setup/step_1_project.md (project scope + constraints)
-   - agent_team/task_board.md (current state — what phase the team last completed)
-   - project_code/documentation/user_stories.md, project_code/documentation/design_spec.md, project_code/documentation/api_contract.md (existing agreements you must not silently break)
-   - project_code/documentation/qa_report.md (last QA pass — this is the regression baseline)
-   - project_code/documentation/deployment.md if it exists (signals the project has shipped → redeploy gate applies)
+   - `agent_team/workflow.md`, especially Phase 9.
+   - `agent_team/agents_config.md`.
+   - Relevant prompts in `agent_team/agents/` for agents that may run.
+   - `project_setup/step_1_project/step_1_project.md`.
+   - `agent_team/task_board.md`.
+   - Existing docs in `project_code/documentation/`:
+     `user_stories.md`, `design_spec.md`, `api_contract.md`, `qa_report.md`,
+     and `deployment.md` if it exists.
 
-2. Classify the change as one of: **Small / Medium / Large-backend / Large-UX** per agent_team/workflow.md §2 step 9. Report back to me in chat with:
-   - The classification + reasoning (why not the next tier up or down).
-   - Which agents you plan to spawn, in which order.
-   - Which existing docs will get appended sections and which files will likely change.
-   - Any ambiguity in my request that would change the plan if clarified.
+2. Classify the change as one of:
+   - QA-only triage.
+   - Small.
+   - Medium.
+   - Large-backend.
+   - Large-UX.
 
-   Then STOP and wait for my approval. Do NOT spawn any agent yet.
+3. Report back before spawning agents:
+   - Classification and reasoning.
+   - Agents to run and order.
+   - Target release/module and whether it changes the selected release scope.
+   - For a new release after MVP 1 or an accepted release, 2-3 next-build
+     options and a recommendation before selecting agents.
+   - Docs that will receive appended sections.
+   - Likely generated-code areas under `project_code/`.
+   - Whether Code Review will run before QA.
+   - Ambiguities that would change the plan.
+   - A filesystem-safe short title slug for reports.
 
-3. After I approve, open a new section in task_board.md:
+4. Stop and wait for my approval or release/module selection before spawning
+   agents.
 
-   ```
-   ## Phase 9 — Change Request: <short title>
-   ```
+5. After approval:
+   - Open a new section in `agent_team/task_board.md`:
+      `## Phase 9 - Change Request: <short title>`.
+   - Spawn only the agents required by the classification.
+   - Tell every agent to append to existing docs instead of rewriting prior
+     sections.
+   - Keep the change scoped to the target release/module unless I explicitly
+     expand scope.
+   - Run Code Review before QA whenever application code changed. Critical
+     code-review findings block QA until the assigned owner fixes them.
+   - Keep edits scoped to the classified change unless a wider dependency is
+     explicitly needed and documented.
+   - Keep all application changes under `project_code/`.
+   - Never print secret values into the task board, reports, or handoff docs.
+   - For QA-only triage, spawn QA Agent only and ask it to write
+     `project_code/documentation/user_acceptance_bug_<short-title-slug>.md`.
 
-   Spawn the minimum set of agents per the classification. Pass these constraints to every agent you spawn:
-   - "Read the existing doc (user_stories.md / design_spec.md / api_contract.md) and APPEND a new section for this change — do not rewrite earlier sections. Mark the section with the change request title so history is preserved."
-   - "Update the new Phase 9 section in task_board.md when you finish; pass the baton to the next agent through the task board's message table, same as a normal phase."
+6. QA must run regression for every flow sharing code with the changed area, not
+   only the new behavior. If regression fails, QA records evidence, severity,
+   and likely owner; Team Lead assigns the fix to the appropriate agent or user
+   config owner. After the owner fixes the issue, QA reruns the failed tests plus
+   affected regression scope before reporting PASS. If it cannot be fixed within
+   the scoped change, write the current QA status, blockers, and recommended
+   next agent handoff in the task board and change report.
 
-4. QA Agent must run regression on **all flows that share code with the changed component**, not only the new behavior. If regression fails, fix the code and re-run before reporting PASS.
-
-5. After QA passes, compile project_code/documentation/change_report_<short-title>.md covering:
-   - What changed (one paragraph).
+7. After QA passes, write
+   `project_code/documentation/change_report_<short-title-slug>.md` with:
+   - What changed.
    - Which agents ran.
-   - QA results — new tests + regression deltas vs. project_code/documentation/qa_report.md.
-   - Files touched (paths only).
+   - QA results and regression deltas versus the previous `qa_report.md`.
+   - Files touched, paths only.
+   - Release plan/status update made by PO, when PO ran.
 
-6. **Redeploy gate.** If project_code/documentation/deployment.md exists, STOP and ask: "Redeploy via DevOps Agent? Or fix something first?" Do NOT spawn DevOps without my explicit yes. If the project has not been deployed yet, just hand back to me with the change report.
+8. If `project_code/documentation/deployment.md` exists, stop and ask:
+   "Please run one local acceptance test pass. Redeploy via DevOps Agent? Or fix
+   something first?" Do not spawn DevOps without my explicit approval. If I
+   approve redeploy, run DevOps end to end: push Git, add or update CI smoke
+   tests, deploy through Vercel when web is in scope, update deployment
+   documentation with the deployment delta, then update or write
+   `project_code/documentation/final_report.md`.
 
 My change request:
 === START ===
-What:        [describe the change in plain language — one or two sentences]
-Where:       [which screen / endpoint / file area — leave blank if you don't know, the agents will figure it out]
-Why:         [user feedback / new requirement / bug discovered — context helps agents make judgment calls on edge cases]
-Severity:    [blocker / nice-to-have]
-Constraints: [must keep API backward-compatible / must ship before <date> / must not touch <area> / etc. — leave blank if none]
+What:        [describe the change in plain language]
+Where:       [screen / endpoint / file area, leave blank if unknown]
+Why:         [user feedback / new requirement / bug context]
+Severity:    [blocker / important / nice-to-have]
+Constraints: [compatibility, deadline, areas not to touch, etc.]
 === END ===

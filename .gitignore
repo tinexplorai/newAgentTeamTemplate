@@ -1,7 +1,14 @@
-# Secrets — never commit
+# Secrets - never commit
 .env
 .env.local
 .env.*.local
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.provisionprofile
+google-services.json
+GoogleService-Info.plist
 
 # Node / JavaScript
 node_modules/
@@ -32,3 +39,15 @@ coverage/
 htmlcov/
 playwright-report/
 test-results/
+
+# Flutter / mobile generated files
+project_code/mobile/.dart_tool/
+project_code/mobile/.flutter-plugins
+project_code/mobile/.flutter-plugins-dependencies
+project_code/mobile/build/
+project_code/mobile/android/.gradle/
+project_code/mobile/ios/Pods/
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/

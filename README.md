@@ -1,78 +1,77 @@
 # SDLC Agent Team Framework
 
-> A reusable framework for building software with **Claude Code Agent Teams**.  
-> Each AI agent plays a specialized role (PO, TechLead, Designer, DEV, QA, DevOps) and coordinates through shared files — just like a real dev team.
-
----
+Reusable framework for building software with Claude Code Agent Teams. Each
+agent owns one SDLC role, while the Team Lead orchestrates the flow through
+shared files.
 
 ## Overview
 
-This template orchestrates multiple Claude agents to build complete software projects:
-- **Team Lead** (you) coordinates the workflow
-- **Specialist agents** handle requirements, design, implementation, testing, and deployment
-- **Task board** tracks progress and agent communication
-- **Deliverables** are written to `project_code/documentation/`
+This template coordinates specialist Claude agents to build complete software
+projects:
 
-**Works for:** SaaS, APIs, mobile apps, dashboards, e-commerce, chat apps, etc.
+- Team Lead: orchestrates phases, owns `agent_team/task_board.md`, writes reports.
+- PO Agent: converts project inputs into user stories and release plans.
+- TechLead Agent: writes API contracts and technical design with a product-wide
+  architecture view across planned MVPs.
+- Designer Agent: turns design inputs or Figma frames into implementation specs.
+- DEV Agent: builds backend and web frontend code.
+- Flutter Agent: builds mobile apps when mobile is in scope.
+- Code Review Agent: reviews generated code and blocks QA on critical findings.
+- QA Agent: runs tests, triages failures to owners, reruns after fixes, writes QA
+  report.
+- DevOps Agent: pushes, configures CI, and deploys only after human approval.
 
----
+Generated project code and deliverables live under `project_code/`.
 
 ## Agent Team
 
-| Agent | Model | Role |
-|-------|-------|------|
-| **Team Lead** | opus | Orchestrates workflow, spawns agents, writes reports |
-| **PO Agent** | opus | Analyzes requirements → User Stories |
-| **TechLead Agent** | opus | Designs API contract + technical architecture |
-| **Designer Agent** | sonnet | Translates designs → UI specification |
-| **DEV Agent** | sonnet | Implements backend + frontend + tests |
-| **Flutter Agent** | sonnet | Builds mobile app (Android/iOS) |
-| **QA Agent** | sonnet | Runs tests, reviews code, reports issues |
-| **DevOps Agent** | sonnet | Pushes to GitHub, sets up CI/CD, deploys |
+| Agent | Default model | Role |
+| --- | --- | --- |
+| Team Lead | `opus` | Orchestrates workflow and reports |
+| PO Agent | `opus` | Requirements and user stories |
+| TechLead Agent | `opus` | API contract and architecture |
+| Designer Agent | `sonnet` | UI/UX specification |
+| DEV Agent | `sonnet` | Backend, web frontend, tests |
+| Flutter Agent | `sonnet` | Mobile app, mobile tests |
+| Code Review Agent | `sonnet` | Code review and QA readiness |
+| QA Agent | `sonnet` | Test execution, triage, QA report |
+| DevOps Agent | `sonnet` | GitHub, CI/CD, deploy |
 
-**Model configuration:** Edit [agent_team/agents_config.md](agent_team/agents_config.md)
+Model assignments are centralized in
+[`agent_team/agents_config.md`](agent_team/agents_config.md).
 
----
+## Canonical Workflow
 
-## Workflow
+1. Phase 1 - Requirements: PO writes
+   `project_code/documentation/user_stories.md` with a release plan when needed.
+2. Phase 2 - Design and architecture: TechLead and Designer run in parallel.
+   TechLead writes `api_contract.md` and optionally `tech_design.md`;
+   Designer writes `design_spec.md`.
+3. Phase 3 - Implementation: DEV builds web/backend under `project_code/`.
+   Flutter builds `project_code/mobile/` when mobile is in scope.
+4. Phase 3.5 - Code review: Code Review writes `code_review.md` when
+   application code changed.
+5. Phase 4 - QA: QA runs local automated tests and writes `qa_report.md`.
+6. Phase 5 - Interim gate: PO updates release status from QA results, then Team
+   Lead writes `interim_report.md` and asks the user before deployment.
+7. Phase 6 - Deployment: DevOps pushes, configures CI/CD, deploys, and writes
+   `deployment.md`. This phase requires explicit user approval.
+8. Phase 7 - Final report: Team Lead writes `final_report.md`.
+9. Next release decision: Team Lead presents 2-3 next-build options before
+   starting the next module/release.
 
-### Phase 1: Requirements
-**PO Agent** reads `project_setup/` and writes `project_code/documentation/user_stories.md`
-
-### Phase 2: Design & Architecture (Parallel)
-- **TechLead Agent** → `api_contract.md` + `tech_design.md`
-- **Designer Agent** → `design_spec.md`
-
-### Phase 3: Implementation
-- **Web:** DEV Agent → backend + frontend
-- **Mobile:** Flutter Agent → iOS/Android app
-- **Both:** DEV first, then Flutter (sequential)
-
-### Phase 4: Quality Assurance
-**QA Agent** runs all tests locally → `qa_report.md`
-
-### Phase 5: Interim Report
-**Team Lead** compiles results → `interim_report.md`  
-**🛑 HUMAN GATE:** User approves deployment
-
-### Phase 6: Deployment
-**DevOps Agent** pushes to GitHub, sets up CI/CD, deploys → `deployment.md`
-
-### Phase 7: Final Report
-**Team Lead** → `final_report.md` with deployment URLs and next steps
-
-**See:** [agent_team/workflow.md](agent_team/workflow.md) for full details
-
----
+Full details are in [`agent_team/workflow.md`](agent_team/workflow.md).
 
 ## Quick Start
 
 ### 1. Prerequisites
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) or VS Code Extension
-- Git
-- Runtime for your stack (Node.js, Python, Go, etc.)
+
+- Claude Code CLI or VS Code extension.
+- Git.
+- Runtime for the project stack, such as Node.js, Python, Go, or Flutter.
 
 ### 2. Enable Agent Teams
+
 ```bash
 # Linux/macOS
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
@@ -83,117 +82,138 @@ $env:CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
 claude
 ```
 
-### 3. Set Model
+### 3. Set Team Lead Model
+
 ```bash
-/model opus    # Team Lead should use most capable model
+/model opus
 ```
 
 ### 4. Fill Project Setup
-Edit `project_setup/step_1_project/step_1_project.md`:
-- Project name, description, goals
-- Tech stack (web/mobile, backend, frontend, database)
-- Constraints
 
-### 5. Add Requirements (Optional)
-Drop files into `project_setup/step_2_requirements/`:
-- PRDs, briefs, customer interviews, screenshots, etc.
+Edit
+[`project_setup/step_1_project/step_1_project.md`](project_setup/step_1_project/step_1_project.md):
 
-### 6. Add Designs (Optional)
-Drop files into `project_setup/step_3_design/`:
-- PDFs, PNGs, JPGs from Figma/Sketch/etc.
+- Project name and project description are the minimum required fields.
+- Goals, scope, and other fields may stay `N/A` for agents to propose.
+- Release strategy, MVP 1 scope, later-release ideas, and local acceptance
+  checks.
+- Web/mobile targets.
+- Backend, frontend, database, testing, integrations, and deployment intent.
+- Runtime secret variable names; actual secret values and concrete
+  GitHub/Vercel identifiers stay in `.env`, Vercel, or GitHub Secrets.
+- Constraints such as performance, security, compliance, and hard limits.
 
-### 7. Kickoff
-Paste the prompt from [project_kickoff/1_prompt_kickoff.md](project_kickoff/1_prompt_kickoff.md)
+### 5. Add Optional Inputs
 
----
+- Requirements: drop Markdown, text, PDF, or image inputs into
+  `project_setup/step_2_requirements/`.
+- Designs: drop PDF, PNG, JPG, or WebP design exports into
+  `project_setup/step_3_design/`.
 
-## Configuration
+### 6. Configure MCP and Environment Values
 
-### MCP Servers (Optional)
-Some agents use external tools via [MCP](https://modelcontextprotocol.io):
+1. Copy `.env.example` to `.env`.
+2. Fill only the values needed by your project.
+3. Use `[PLACEHOLDER]` when the Team Lead should ask you once.
+4. Use `N/A` when the responsible agent should make a reasonable default.
+5. Update `.mcp.json` only for MCP servers you intend to use.
 
-| Agent | MCP Server | Purpose |
-|-------|------------|---------|
-| Designer | `figma` | Pull design frames (if no local files) |
-| TechLead/DEV/Flutter | `supabase` | Database schema + migrations |
-| DevOps | `github` | Push code, CI/CD setup |
+Unused MCP servers can be removed from `.mcp.json` before starting Claude Code.
+
+### 7. Kick Off
+
+Paste the prompt from
+[`project_kickoff/1_prompt_kickoff.md`](project_kickoff/1_prompt_kickoff.md)
+into the Team Lead Claude Code session.
+
+## Project Slash Commands
+
+Claude Code project slash commands live in `.claude/commands/`. Use them when
+you want to call one agent directly instead of pasting a full kickoff prompt:
+
+- `/agent-po <task>`
+- `/agent-techlead <task>`
+- `/agent-designer <task>`
+- `/agent-dev <task>`
+- `/agent-flutter <task>`
+- `/agent-codereview <task>`
+- `/agent-qa <task>`
+- `/qa-reproduce <bug steps>` for QA-only reproduction of a local acceptance bug.
+- `/agent-devops <approval/context>` after explicit deploy or redeploy approval.
+- `/release-next <context>` to ask Team Lead for 2-3 next-release options before
+  starting another module.
+
+The commands still route through the Team Lead rules, task board, and deployment
+gates.
+
+## MCP Servers
+
+| Agent | MCP server | Purpose |
+| --- | --- | --- |
+| Designer | `figma` | Pull design frames when local design files are absent |
+| TechLead/DEV/Flutter | `supabase` | Inspect schema and apply migrations for Supabase projects |
+| DevOps | `github` | Push code and configure repository/CI |
 | DevOps | `vercel` | Deploy web apps |
 
-**Setup:**
-1. Copy `project_code/.env.example` → `project_code/.env`
-2. Add API tokens (Figma, GitHub, Vercel, Supabase)
-3. Update `project_code/.mcp.json` with your project slugs
-4. Restart Claude Code
-
-**Skip what you don't need** — agents adapt to available tools.
-
----
+MCP configuration lives at root in `.mcp.json`; secrets and concrete identifiers
+live in `.env`, copied from `.env.example`.
 
 ## Folder Structure
 
-```
-├── project_setup/           # Per-project inputs
-│   ├── step_1_project/      # Project spec (name, stack, goals)
-│   ├── step_2_requirements/ # PRDs, briefs, research
-│   └── step_3_design/       # Design files (PDF, PNG, JPG)
-│
-├── project_kickoff/         # Prompt templates
-│   ├── 1_prompt_kickoff.md
-│   └── 2_prompt_change_request.md
-│
-├── agent_team/              # Framework configuration
-│   ├── agents_config.md     # Model assignments
-│   ├── workflow.md          # Process details
-│   ├── agents/              # Per-agent instructions
-│   └── sample_task_board.md # Example task board
-│
-└── project_code/            # Generated output
-    ├── .env.example         # Environment template
-    ├── .mcp.json            # MCP configuration
-    ├── documentation/       # Agent deliverables
-    │   └── sample_deliverable/  # Examples
-    ├── backend/             # Created by DEV Agent
-    ├── frontend/            # Created by DEV Agent
-    └── mobile/              # Created by Flutter Agent
-```
+```text
+project_setup/
+  step_1_project/
+    step_1_project.md          # Required project spec
+  step_2_requirements/         # Optional PO inputs
+  step_3_design/               # Optional design inputs
 
----
+project_kickoff/
+  1_prompt_kickoff.md
+  2_prompt_change_request.md
+
+agent_team/
+  agents_config.md
+  workflow.md
+  agents/
+  sample_task_board.md
+  task_board.md                # Created by Team Lead at kickoff
+
+project_code/
+  documentation/
+    sample_deliverable/
+  backend/                     # Created by DEV Agent when applicable
+  frontend/                    # Created by DEV Agent when applicable
+  mobile/                      # Created by Flutter Agent when applicable
+
+.claude/
+  commands/                    # Project slash commands for individual agents
+
+.env.example
+.mcp.json
+CLAUDE.md
+README.md
+```
 
 ## Change Requests
 
-After initial deployment, use [project_kickoff/2_prompt_change_request.md](project_kickoff/2_prompt_change_request.md) to:
-- Fix bugs
-- Add features
-- Update designs
-- Modify APIs
+After QA or deployment, use
+[`project_kickoff/2_prompt_change_request.md`](project_kickoff/2_prompt_change_request.md).
+The Team Lead classifies the change and reruns only the required agents.
 
-Team Lead re-runs only the necessary agents (not the full pipeline).
+## Safety Rules
 
----
+- DevOps never runs without explicit user approval after the interim gate.
+- If `deployment.md` exists, redeploy also requires explicit user approval.
+- Critical open QA issues block deployment unless the user gives an explicit
+  written override.
+- Secrets stay in `.env` or GitHub Secrets and must never be committed.
+- Claude Code Agent Teams spawn Anthropic models only.
 
 ## Examples
 
-See `project_code/documentation/sample_deliverable/` for example outputs:
-- `sample_user_stories.md`
-- `sample_api_contract.md`
-- `sample_design_spec.md`
-- `sample_qa_report.md`
-- `sample_deployment.md`
-- `sample_interim_report.md`
-- `sample_final_report.md`
-
-See `agent_team/sample_task_board.md` for workflow example.
-
----
-
-## Notes
-
-- **Provider:** Uses Claude Code's native `Agent` tool (Anthropic models only)
-- **Communication:** Agents coordinate via `task_board.md`, not chat
-- **Deployment gate:** User approval required before DevOps runs
-- **Customization:** Edit agent instructions in `agent_team/agents/`
-
----
+Sample outputs are available in
+`project_code/documentation/sample_deliverable/`, and a sample board is available
+at [`agent_team/sample_task_board.md`](agent_team/sample_task_board.md).
 
 ## License
 

@@ -1,34 +1,31 @@
-# Design Input
+# Step 3 - Design Input
 
-> **You drop files here. The Designer Agent reads them.**
+Drop design references here for the Designer Agent. Skip this folder for
+backend-only projects.
 
-Place design references exported from your design tool (Claude design, Figma, Penpot, Sketch, etc.) into this folder. The Designer Agent reads everything here at the start of Phase 2.
+The Designer Agent resolves design input in this order:
 
-## Supported formats
+1. Files in this folder.
+2. Figma via MCP when `FIGMA_FILE_URL` and `FIGMA_API_KEY` are configured.
+3. Best-effort design spec inferred from user stories.
+
+## Supported Formats
 
 | Format | Status | Notes |
-|--------|--------|-------|
-| **PDF** | Preferred | Single file, multi-page; renders cleanly. |
-| **PNG / JPG / WebP** | Supported | Use one image per screen/frame; name them descriptively (e.g. `01_login.png`, `02_dashboard.png`). |
-| **PPT / PPTX** | **Not supported** — re-export as PDF | The agent cannot read PowerPoint directly. |
-| **ZIP** | Unzip first | Drop the unzipped contents here, not the archive. |
+| --- | --- | --- |
+| PDF | Preferred | Best for multi-screen exports |
+| PNG/JPG/WebP | Supported | Use one image per screen/frame |
+| PPT/PPTX | Convert first | Export to PDF |
+| ZIP | Unzip first | Drop extracted files here |
 
-## Naming tips (optional but helpful)
+## Naming
 
-If you have multiple files, prefix with a number so the agent reads them in order:
+Use number prefixes when order matters:
 
-```
+```text
 project_setup/step_3_design/
-├── 01_login.pdf
-├── 02_dashboard.png
-├── 03_settings.png
-└── style_guide.pdf
+  01_login.png
+  02_dashboard.png
+  03_settings.pdf
+  style_guide.pdf
 ```
-
-## What the Designer Agent does with these
-
-1. Reads every PDF / image in this folder.
-2. Cross-references with `project_code/documentation/user_stories.md` to map each screen to user stories.
-3. Writes `project_code/documentation/design_spec.md` — component list, layout, design tokens, interactions, accessibility notes.
-
-If this folder is empty, the agent falls back to the Figma MCP (if configured) or writes a spec from user stories alone.

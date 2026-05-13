@@ -1,89 +1,116 @@
 # Deployment Report
 
-> **Created by:** Agent_07_DevOps  
-> **Phase:** 7  
-> **Input:** All code, .env, GitHub repo, Vercel project
+Created by: DevOps Agent
+Phase: 6
+Date: 2026-05-11
 
----
+## Preconditions
 
-## Deployment Summary
+- QA assessment: PASS WITH NOTES.
+- Deployment recommendation: ALLOW.
+- User approval: received at Phase 5 gate.
+- Critical open issues: none.
+- Existing GitHub repository: confirmed.
+- Existing Vercel project: confirmed.
 
-**Date:** 2026-05-11  
-**Environment:** Production  
-**Platform:** Vercel (Frontend + Backend)  
-**Repository:** github.com/username/project-name
+## GitHub
 
----
+- Repository: `https://github.com/username/project-name`
+- Default branch: `main`
+- Commit pushed: `abc1234`
+- CI workflow: `.github/workflows/ci.yml`
+- CI status: passing.
 
-## GitHub Setup
+## CI Smoke Checks
 
-### Repository
-- **URL:** https://github.com/username/project-name
-- **Branch:** main
-- **Protection:** Enabled (require PR reviews)
+CI is intentionally limited to smoke/build sanity checks. Full local regression
+remains QA-owned before the deploy gate.
 
-### CI/CD Workflow
-- **File:** `.github/workflows/ci.yml`
-- **Triggers:** Push to main, Pull requests
-- **Jobs:**
-  - Lint code
-  - Run unit tests
-  - Run E2E tests
-  - Build application
+Checks added or verified:
 
-### GitHub Secrets Required
-The following secrets must be added manually at:  
-`https://github.com/username/project-name/settings/secrets/actions`
+- Install backend and frontend dependencies.
+- Build frontend.
+- Start preview server.
+- Smoke `GET /` using `WEB_SMOKE_TEST_PATH`.
+- Smoke `GET /api/health` using `API_HEALTHCHECK_PATH`.
 
-```
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_ANON_KEY=eyJxxx...
-SUPABASE_SERVICE_ROLE_KEY=eyJxxx...
-```
+Smoke result:
 
----
+- Route `/`: pass.
+- Route `/api/health`: pass.
 
-## Vercel Deployment
+## Web Deployment
 
-### Project
-- **URL:** https://project-name.vercel.app
-- **Project ID:** prj_xxx
-- **Team:** personal
+- Platform: Vercel.
+- Production URL: `https://project-name.vercel.app`
+- Deployment ID: `dpl_example`
+- Vercel project slug: `project-name`
+- Vercel team slug: `team-name`
+- Frontend root: `project_code/frontend`
+- Backend/API source: `project_code/backend` when the selected stack supports a
+  Vercel-compatible serverless/API adapter.
+- Sample backend deployment mode: API exposed through the selected
+  Vercel-compatible web stack.
+- If the generated backend is a long-running server process, DevOps must record
+  the separate hosting requirement instead of marking Vercel deployment complete.
 
-### Environment Variables
-Set at: `https://vercel.com/username/project-name/settings/environment-variables`
+Environment variables configured by name:
 
-```
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_ANON_KEY=eyJxxx...
-NODE_ENV=production
-```
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `JWT_SECRET`
+- `NODE_ENV`
 
-### Deployment Status
-- ✅ Production deployment successful
-- ✅ SSL certificate active
-- ✅ Custom domain ready (pending DNS)
+Secret values are not printed in this report.
 
----
+## Production Smoke
 
-## Post-Deployment Tasks
+- Checked URL: `https://project-name.vercel.app/`
+- Checked API route: `https://project-name.vercel.app/api/health`
+- Result: pass.
 
-### Required (Manual)
-1. Add GitHub Secrets (see above)
-2. Configure custom domain DNS (if applicable)
-3. Test production endpoints
-4. Monitor first 24h for errors
+## Failed Deployment Attempts
 
-### Optional
-1. Set up error monitoring (Sentry)
-2. Configure analytics
-3. Add status page
-4. Set up backup schedule
+None.
 
----
+If a failure occurs, record:
 
-## URLs
+- Deployment ID.
+- Failed step.
+- Short log summary.
+- Error category: DevOps config, application code/build/runtime, account/token,
+  missing secret, or smoke-route issue.
+- Retry count and next owner.
 
-- **Production:** https://project-name.vercel.app
-- **GitHub Repo:** https://github.com/username/project-name
-- **CI/CD:** https://github.com/username/project-name/actions
+## Mobile Deployment
+
+Not applicable.
+
+## GitHub Secrets Or Variables Required
+
+Add or verify these in repository settings if CI or deployment uses them:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `JWT_SECRET`
+- `VERCEL_TOKEN`
+
+Do not paste secret values into documentation.
+
+## First-Deploy Notes
+
+- Test the production registration and login flows.
+- Configure custom domain DNS if needed.
+- Add monitoring and alerting before public launch.
+- Add rate limiting before public marketing traffic.
+
+## Handoff
+
+Deployment completed. Team Lead can compile the final report and prepare
+next-release options before starting MVP 2.
