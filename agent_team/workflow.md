@@ -132,8 +132,14 @@ Database setup:
   inspect schema, create migrations, apply migrations to the configured Supabase
   project, and seed development/test data when needed.
 - DEV must write migration files or schema setup code under `project_code/` and
-  record applied migration names, commands/tools used, seed data behavior, and
-  results in `dev_handoff.md`.
+  record applied migration names, commands/tools used, seed source file paths,
+  seed/reset commands, seed data behavior, target database, and results in
+  `dev_handoff.md`.
+- Supabase seed/test data for DEV, QA, and user acceptance must target the
+  configured Supabase dev/local QA project from `SUPABASE_PROJECT_REF`, not a
+  production project. The actual data lives in that Supabase dev database; the
+  reproducible seed source and command must live under `project_code/`,
+  preferably `project_code/backend/`.
 - If Supabase values are missing or `[PLACEHOLDER]`, DEV should create the
   migration files locally, document the blocker, and ask Team Lead to get the
   missing values once.
@@ -185,8 +191,9 @@ QA Agent runs local tests for every generated target:
 Before E2E, QA must confirm the database target from DEV/Flutter handoff docs
 and `.env`: Supabase project, local database, or mocked/test database. QA must
 verify migration and seed status before testing flows that depend on persisted
-data, and record the database target, migration status, seed data, and reset or
-isolation steps in `qa_report.md`.
+data, and record the database target, migration status, seed source file path,
+seed/reset command, seeded data summary, and reset or isolation steps in
+`qa_report.md`.
 
 Output:
 
@@ -230,7 +237,14 @@ interim report:
 - Local run commands and expected URLs, ports, emulator/device requirements, or
   build artifact paths.
 - Required env var names and which ones may be left as `N/A` for local testing.
-- Test credentials, seed data, or manual setup steps when applicable.
+- User-acceptance test data: sample accounts, sample records, seed commands,
+  reset steps, and feature-specific inputs needed to exercise the completed
+  flows.
+- Test data storage target: for Supabase projects, state that the data is stored
+  in the configured Supabase dev/local QA project from `SUPABASE_PROJECT_REF`
+  and list the seed source file path under `project_code/`.
+- If the completed scope needs no seed or account data, state that explicitly
+  and describe the manual data the user can create during testing.
 - QA assessment, known limitations, and any blockers.
 
 If QA is `PASS` or `PASS WITH NOTES` and local run instructions are complete,
@@ -238,6 +252,11 @@ Team Lead stops and asks the user to run one local acceptance test pass. The
 user must explicitly confirm deployment before Phase 6 starts. If the user finds
 issues, route them through the change-request loop or a scoped fix before
 deployment.
+
+The local acceptance request must always point the user to the test data section
+in `interim_report.md`. Use only non-production sample credentials or generated
+local/dev seed data; never publish real secrets, production credentials, or real
+user data.
 
 User acceptance bug triage:
 

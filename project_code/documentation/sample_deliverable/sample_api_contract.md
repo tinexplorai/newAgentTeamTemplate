@@ -132,6 +132,9 @@ deployment reports.
   configured.
 - DEV must create migration files under `project_code/` and record applied
   migrations in `dev_handoff.md`.
+- DEV must keep seed/test data source files and seed/reset commands under
+  `project_code/`, preferably `project_code/backend/`, and document where the
+  data is stored for QA and user acceptance.
 - Destructive migrations, production database changes, or schema changes outside
   this contract require Team Lead escalation.
 

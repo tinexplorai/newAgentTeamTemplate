@@ -67,9 +67,13 @@ Secret values are not printed in this handoff.
 ## Database And Migrations
 
 - Target: Supabase remote dev project from `SUPABASE_PROJECT_REF`.
+- Test data storage target: configured Supabase dev/local QA database, not
+  production.
 - Migration created: `202605110001_auth_profiles.sql`.
 - Migration applied: yes.
+- Seed source file: `project_code/backend/supabase/seed.sql`.
 - Seed command: `npm run db:seed`.
+- Reset command: `npm run db:seed`.
 - Seed data: QA test user and dashboard activity.
 - Production database touched: no.
 

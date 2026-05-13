@@ -61,10 +61,43 @@ Expected local URLs:
 - Frontend: `http://localhost:3000`
 - API: `http://localhost:4000`
 
-Test account:
+## User Acceptance Test Data
+
+Storage target:
+
+- Supabase remote dev/local QA project from `SUPABASE_PROJECT_REF`.
+- Actual sample rows are stored in that configured Supabase dev database.
+- Seed source file: `project_code/backend/supabase/seed.sql`.
+- Production database touched: no.
+
+Seed/reset commands:
+
+```bash
+cd project_code/backend && npm run db:seed
+```
+
+Sample account:
 
 - Email: `qa-user@example.com`
-- Password: stored only in local seed script or `.env`, not printed in docs.
+- Password: `TestPassword123!`
+- Role: standard authenticated user
+
+Sample records:
+
+- Dashboard project: `QA Sample Project`
+- Notification preference: email enabled, SMS disabled
+- Empty-state scenario: create a new account through registration without
+  running the seed command for that account.
+
+Feature-specific checks:
+
+- Use the sample account to test login, logout, and protected dashboard access.
+- Register a new account to test first-user onboarding and empty dashboard
+  behavior.
+- Run the seed command again to reset deterministic local/dev sample data.
+
+These are non-production sample credentials for local/dev acceptance only. Do
+not put real secrets, production credentials, or real user data in this report.
 
 ## Review And QA Results
 

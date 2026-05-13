@@ -102,7 +102,9 @@ Targets:
 
 **Seed or test data needed:**
 
-- N/A
+- Team Lead/DEV decides per selected release, but QA-passed releases must
+  provide deterministic user-acceptance test data, seed/reset commands, and the
+  storage target in `project_code/documentation/interim_report.md`.
 
 **Third-party integrations:**
 

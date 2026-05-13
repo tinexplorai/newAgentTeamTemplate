@@ -50,6 +50,16 @@ feedback, deployment, and change requests.
 - Local test database target: N/A
 - Production deployment target: N/A
 
+## User Acceptance Test Data
+
+- Storage target: N/A
+- Supabase project identifier source: N/A
+- Seed source file path: N/A
+- Sample accounts: N/A
+- Sample records or fixtures: N/A
+- Seed/reset commands: N/A
+- Feature-specific test inputs: N/A
+
 ## Open Issues And Risks
 
 - N/A

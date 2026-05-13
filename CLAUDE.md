@@ -56,8 +56,19 @@ Before responding to any request that touches the project, read these in order:
   Team Lead assigns an owner and the owner fixes them.
 - Deployment gate: after QA, write
   `project_code/documentation/interim_report.md` with local setup/run/test
-  instructions so the user can test locally, then stop and ask the user to run
-  one local acceptance test pass before spawning DevOps.
+  instructions and user-acceptance test data so the user can test locally, then
+  stop and ask the user to run one local acceptance test pass before spawning
+  DevOps.
+- When QA passes or passes with notes, the interim report must include
+  deterministic test data for user acceptance: sample accounts, sample records,
+  seed commands, reset steps, and any feature-specific inputs. If no data is
+  required, explicitly state that and explain how the user should verify the
+  flow. Never include real secrets or real user credentials.
+- For Supabase projects, DEV/QA/user-acceptance seed data must be written only
+  to the configured Supabase dev/local QA project from `SUPABASE_PROJECT_REF`.
+  The seed source file and seed/reset command must live under `project_code/`
+  and be documented in `dev_handoff.md`, `qa_report.md`, and
+  `interim_report.md`.
 - After explicit deployment approval, DevOps may push Git, create or update CI
   workflows, add smoke tests, configure Vercel, trigger production deploy, and
   observe status without per-step approval. CI should default to smoke checks

@@ -31,6 +31,10 @@ Results:
 - Target type: Supabase remote dev project.
 - Project identifier source: `SUPABASE_PROJECT_REF`.
 - Migrations verified: `202605110001_auth_profiles.sql`.
+- Test data storage target: configured Supabase dev/local QA database, not
+  production.
+- Seed source file: `project_code/backend/supabase/seed.sql`.
+- Seed/reset command: `cd project_code/backend && npm run db:seed`.
 - Seed data: test user and dashboard activity seeded by DEV script.
 - Isolation/reset: QA test user is recreated before E2E runs; destructive reset
   was not used.
