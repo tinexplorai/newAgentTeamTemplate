@@ -27,6 +27,7 @@ Model assignments live in `agent_team/agents_config.md`.
 - Optional requirements: `project_setup/step_2_requirements/`.
 - Optional design inputs: `project_setup/step_3_design/`.
 - Task board: `agent_team/task_board.md`.
+- Project memory index: `project_code/documentation/project_memory.md`.
 - Documentation outputs: `project_code/documentation/`.
 - Generated app code:
   - Web backend: `project_code/backend/`.
@@ -214,6 +215,7 @@ edit production code, schemas, API contracts, migrations, or app behavior.
 Team Lead writes:
 
 - `project_code/documentation/interim_report.md`.
+- Update `project_code/documentation/project_memory.md`.
 
 Before writing the interim report, Team Lead reports QA results back to PO Agent
 so PO can update `project_code/documentation/user_stories.md` with `## Release
@@ -302,6 +304,7 @@ Team Lead records an explicit written user override.
 Team Lead writes:
 
 - `project_code/documentation/final_report.md`.
+- Update `project_code/documentation/project_memory.md`.
 
 The final report includes deployment URLs, CI status, manual secrets/setup still
 needed, and follow-up recommendations.
@@ -348,6 +351,8 @@ Rules:
   `agent_team/task_board.md`.
 - Team Lead writes
   `project_code/documentation/change_report_<short-title>.md` after QA passes.
+- Team Lead updates `project_code/documentation/project_memory.md` with the
+  change result, linked report, and next action.
 - If `project_code/documentation/deployment.md` exists, redeploy requires the
   same explicit approval as the initial deployment gate.
 
@@ -361,6 +366,8 @@ Every phase must leave a reviewable trail for the user.
   run, assumptions, `N/A` decisions, blockers, and follow-up work.
 - Team Lead records the handoff summary, phase status, and deliverable paths in
   `agent_team/task_board.md`.
+- Team Lead updates `project_code/documentation/project_memory.md` at major
+  gates so later sessions can resume from a concise state summary.
 - Team Lead reports the phase result to the user before moving through major
   gates: after requirements/design, after implementation, after QA, before
   deployment, and after deployment.

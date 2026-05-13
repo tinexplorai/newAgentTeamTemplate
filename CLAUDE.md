@@ -17,7 +17,9 @@ Before responding to any request that touches the project, read these in order:
 4. `agent_team/agents/` - per-agent instructions.
 5. `.env` - concrete identifiers and runtime values. Copy from `.env.example`
    if missing.
-6. `agent_team/task_board.md` - current state. If missing, start at Phase 1.
+6. `project_code/documentation/project_memory.md` - short project memory index,
+   if present.
+7. `agent_team/task_board.md` - current state. If missing, start at Phase 1.
 
 ## Hard Rules
 
@@ -37,6 +39,9 @@ Before responding to any request that touches the project, read these in order:
 - Every phase must leave a reviewable trail: required deliverable, agent
   handoff, task-board update, assumptions, `N/A` decisions, commands/checks run,
   blockers, and follow-up work.
+- Team Lead keeps `project_code/documentation/project_memory.md` concise and
+  current after major gates, user acceptance feedback, deployment, and change
+  requests. It is an index to source-of-truth docs, not a replacement for them.
 - PO must create a release plan for broad projects. Team Lead records the
   selected release scope and downstream agents build only that scope unless the
   user explicitly expands it.
