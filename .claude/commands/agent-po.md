@@ -15,4 +15,7 @@ $ARGUMENTS
 ```
 
 Keep outputs under `project_code/documentation/`, preserve prior decisions on
-change requests, and record the PO handoff in `agent_team/task_board.md`.
+change requests, and record the PO handoff in `agent_team/task_board.md`. Ensure
+`project_code/documentation/source_inventory.md` exists before spawning PO; if
+the user provided new PRD, UI, or website reference input, update source IDs and
+fidelity notes first.

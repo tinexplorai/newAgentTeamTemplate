@@ -21,6 +21,12 @@ For broad products, fill the release strategy and MVP 1 scope carefully. The
 agent team will build only the selected release scope first, then Team Lead will
 ask before starting MVP 2 or later modules.
 
+If you want the team to match a UI PNG, Figma frame, or website, fill
+`Reference Inputs And Fidelity Targets` in the project spec. Use `Exact` for
+near pixel/copy parity, `Close` for same structure and feel, and `Inspired` when
+the source is only creative direction. Also state whether third-party logos,
+photos, and brand assets may be reused.
+
 ## Step 2 - Requirements
 
 Drop optional PO inputs into `step_2_requirements/`:
@@ -29,6 +35,8 @@ Drop optional PO inputs into `step_2_requirements/`:
 - Plain text.
 - PDF.
 - PNG/JPG screenshots.
+- Website/reference notes, route lists, login steps, or competitor-flow notes in
+  Markdown/text.
 
 DOC/DOCX and PPT/PPTX should be converted to Markdown or PDF first.
 
@@ -42,6 +50,10 @@ Drop optional design references into `step_3_design/`:
 If this folder is empty and Figma is configured in `.env` plus `.mcp.json`, the
 Designer Agent can use Figma. If neither local designs nor Figma are available,
 Designer writes a best-effort spec from user stories.
+
+Reference website URLs should go in the Step 1 project spec so Team Lead can
+capture them in `project_code/documentation/source_inventory.md` before PO and
+Designer run.
 
 ## Secrets And External IDs
 

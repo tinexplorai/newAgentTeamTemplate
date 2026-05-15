@@ -8,10 +8,10 @@ below.
 
 | Agent | Model | Description file | MCP servers used |
 | --- | --- | --- | --- |
-| Team Lead | `opus` | Main Claude Code session | As needed |
+| Team Lead | `opus` | Main Claude Code session; owns source intake and gates | As needed |
 | PO Agent | `opus` | `agents/Agent_01_PO.md` | None |
 | TechLead Agent | `opus` | `agents/Agent_02_TechLead.md` | `supabase` when DB is Supabase |
-| Designer Agent | `sonnet` | `agents/Agent_03_Designer.md` | `figma` when no local design files exist |
+| Designer Agent | `opus` | `agents/Agent_03_Designer.md` | `figma` when no local design files exist |
 | DEV Agent | `sonnet` | `agents/Agent_04_DEV.md` | `supabase` when DB is Supabase |
 | Flutter Agent | `sonnet` | `agents/Agent_05_Flutter.md` | `supabase` when DB is Supabase |
 | Code Review Agent | `sonnet` | `agents/Agent_08_CodeReview.md` | None |
@@ -22,8 +22,8 @@ below.
 
 | Alias | Use |
 | --- | --- |
-| `opus` | Deep reasoning: Team Lead, PO, TechLead |
-| `sonnet` | Balanced execution: Designer, DEV, Flutter, Code Review, QA, DevOps |
+| `opus` | Deep reasoning: Team Lead, PO, TechLead, Designer |
+| `sonnet` | Balanced execution: DEV, Flutter, Code Review, QA, DevOps |
 | `haiku` | Fast low-cost summaries or lookups |
 
 Aliases resolve to the latest Claude Code model version. Pin a specific version

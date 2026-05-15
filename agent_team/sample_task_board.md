@@ -12,6 +12,22 @@ Source: `project_setup/step_1_project/step_1_project.md`
 - Scope: user registration, login, dashboard.
 - Target: MVP launch in 2 weeks.
 
+## Phase 0 - Source Intake
+
+Status: Completed
+Agent: Team Lead
+
+Tasks:
+
+- [x] Read project spec, requirements, design inputs, and reference links.
+- [x] Assign source IDs and source priority.
+- [x] Record fidelity targets and asset policy.
+- [x] Write `project_code/documentation/source_inventory.md`.
+
+Deliverables:
+
+- `project_code/documentation/source_inventory.md`
+
 ## Phase 1 - Requirements
 
 Status: Completed
@@ -51,7 +67,7 @@ Deliverables:
 
 ### Phase 2b - Designer Agent
 
-Agent: Designer Agent (`sonnet`)
+Agent: Designer Agent (`opus`)
 
 Tasks:
 
@@ -73,16 +89,16 @@ Agent: DEV Agent (`sonnet`)
 Tasks:
 
 - [x] Read API contract, tech design, and design spec.
-- [x] Build `project_code/backend/`.
-- [x] Build `project_code/frontend/`.
+- [x] Build `project_code/api/`.
+- [x] Build `project_code/app/`.
 - [x] Add unit tests.
 - [x] Add Playwright E2E tests.
 - [x] Write `project_code/documentation/dev_handoff.md`.
 
 Deliverables:
 
-- `project_code/backend/`
-- `project_code/frontend/`
+- `project_code/api/`
+- `project_code/app/`
 - `project_code/documentation/dev_handoff.md`
 
 ## Phase 4 - QA

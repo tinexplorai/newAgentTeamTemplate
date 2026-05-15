@@ -18,5 +18,6 @@ Flutter may work autonomously within the approved scope under
 `project_code/mobile/` until `project_code/documentation/flutter_handoff.md` is
 complete. Do not ask for per-edit approval. Stop only for scope, contract,
 schema, architecture, external account/project, deployment, secret, signing,
-production database, or destructive Git decisions. Record the handoff in
-`agent_team/task_board.md`.
+production database, or destructive Git decisions. Require implementation
+coverage against source IDs and visual sanity evidence when UI references exist.
+Record the handoff in `agent_team/task_board.md`.

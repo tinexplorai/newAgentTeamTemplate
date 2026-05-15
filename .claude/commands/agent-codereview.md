@@ -16,6 +16,6 @@ $ARGUMENTS
 
 Code Review must not edit production code. It reviews implementation quality,
 contract adherence, security/env boundaries, database safety, handoff readiness,
-and QA readiness. It writes `project_code/documentation/code_review.md` and
-returns findings with likely owners. Record the handoff in
-`agent_team/task_board.md`.
+source coverage, visual parity readiness when UI references exist, and QA
+readiness. It writes `project_code/documentation/code_review.md` and returns
+findings with likely owners. Record the handoff in `agent_team/task_board.md`.

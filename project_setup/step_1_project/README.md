@@ -10,6 +10,9 @@ truth for the agent team.
 - Out-of-scope items.
 - Release strategy, MVP 1 scope, later-release ideas, and priority guidance.
 - Primary user roles, MVP 1 workflows, and local acceptance checks.
+- Reference website URLs, UI fidelity target (`Exact`, `Close`, or `Inspired`),
+  target viewports/devices, source priority, asset-use permission, and
+  brand/copy exactness for UI PNG/Figma/website matching.
 - Web and/or mobile targets.
 - Backend, frontend, database, testing, and distribution choices.
 - Database target for local QA, migration policy, seed/test data, integrations,
@@ -31,5 +34,7 @@ truth for the agent team.
 
 - Requirements: `../step_2_requirements/`.
 - Design references: `../step_3_design/`.
+- Source inventory generated at kickoff:
+  `../../project_code/documentation/source_inventory.md`.
 - Secrets and external identifiers: root `.env`.
 - Workflow rules: `../../agent_team/workflow.md`.

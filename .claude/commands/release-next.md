@@ -3,8 +3,9 @@ description: Ask Team Lead to propose next release/module options after an MVP.
 ---
 
 Read `CLAUDE.md`, `agent_team/workflow.md`, `agent_team/agents_config.md`,
-`agent_team/task_board.md`, `project_code/documentation/project_memory.md` if
-present, and existing docs under `project_code/documentation/`.
+`agent_team/task_board.md`, `project_code/documentation/source_inventory.md` if
+present, `project_code/documentation/project_memory.md` if present, and
+existing docs under `project_code/documentation/`.
 
 Prepare a release decision summary before spawning any agents.
 
@@ -18,6 +19,7 @@ Report:
 
 - Current release status and user acceptance result.
 - Completed, failed, deferred, and newly discovered stories.
+- Source coverage gaps, visual parity gaps, and known accepted differences.
 - PO recommended next MVP/module from `user_stories.md`.
 - TechLead technical risks, dependencies, and architecture implications.
 - 2-3 concrete next-build options with expected agents, scope, risks, and whether

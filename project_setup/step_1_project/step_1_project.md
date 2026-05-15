@@ -12,8 +12,27 @@ Minimum required fields:
 - **Name**
 - **Project description**
 
-Everything else may stay `N/A`. Agents will decide reasonable defaults, document
-assumptions, and ask once for `[PLACEHOLDER]` values only when needed.
+Everything else may stay `N/A`. Agents will decide reasonable defaults using
+`agent_team/defaults.md`, document assumptions, and batch any `[PLACEHOLDER]`
+asks into a single message when a phase actually needs the value.
+
+## 0. Run Mode
+
+**Autonomy mode:** autonomous
+
+Values:
+
+- `autonomous` (recommended): Team Lead runs Phase 0 through Phase 5 without
+  check-ins. Agents document `N/A` decisions using `agent_team/defaults.md`
+  instead of asking. Required user touchpoints are only:
+  1. Phase 0a Input Echo-back (one summary, reply `go` to proceed).
+  2. Phase 5 Interim Gate (run local acceptance, approve deployment).
+  3. Any unresolvable `[PLACEHOLDER]` values, batched into one message.
+- `ask`: Team Lead may stop at phase boundaries when inputs are ambiguous.
+
+Both modes preserve hard safety gates: deployment requires explicit user
+approval, critical QA bugs block deployment, and destructive operations require
+confirmation.
 
 ## 1. Project Overview
 
@@ -65,7 +84,52 @@ matters. Be specific about the user and the problem.]
 
 - N/A
 
-## 4. Tech Stack
+## 4. Reference Inputs And Fidelity Targets
+
+Use this section when you provide UI PNG/PDF/Figma files or ask the team to
+match a website.
+
+**Reference website URLs:**
+
+- N/A
+
+**Reference purpose:**
+
+- N/A
+
+Examples: clone this UI exactly, use as visual inspiration only, match layout
+and interactions but use my brand/content, inspect competitor flow for feature
+coverage.
+
+**Fidelity target:**
+
+- Exact / Close / Inspired / N/A
+
+**Viewports or devices to match:**
+
+- Desktop: N/A
+- Tablet: N/A
+- Mobile: N/A
+
+**Design/source priority if inputs conflict:**
+
+- N/A
+
+**Asset usage permission:**
+
+- N/A
+
+Examples: all assets are mine and may be reused; use only assets I provide;
+do not copy third-party logos/photos; generate safe replacement imagery.
+
+**Brand/copy exactness:**
+
+- N/A
+
+Examples: use exact copy from PNG; rewrite copy in Vietnamese; preserve brand
+names; replace competitor names with my product name.
+
+## 5. Tech Stack
 
 Targets:
 
@@ -90,7 +154,7 @@ Targets:
 - **Distribution:** N/A
 - **Testing:** flutter test + integration_test
 
-## 5. Data, Integrations, And Runtime Secrets
+## 6. Data, Integrations, And Runtime Secrets
 
 **Database target for local QA:**
 
@@ -118,7 +182,7 @@ Targets:
 
 - SUPABASE_URL, SUPABASE_ANON_KEY
 
-## 6. Deployment And Repositories
+## 7. Deployment And Repositories
 
 **Deployment platform intent:**
 
@@ -141,7 +205,7 @@ Targets:
 
 - deploy web after approval
 
-## 7. Constraints And Notes
+## 8. Constraints And Notes
 
 - **Performance:** N/A
 - **Security:** JWT auth, OWASP Top 10 review

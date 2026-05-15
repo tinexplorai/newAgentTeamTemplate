@@ -9,8 +9,10 @@ Process:
    - `project_setup/step_1_project/step_1_project.md`.
    - `agent_team/task_board.md`.
    - Existing docs in `project_code/documentation/`:
-     `user_stories.md`, `design_spec.md`, `api_contract.md`, `qa_report.md`,
-     and `deployment.md` if it exists.
+     `source_inventory.md`, `user_stories.md`, `design_spec.md`,
+     `api_contract.md`, `qa_report.md`, and `deployment.md` if it exists.
+   - New PRD, UI PNG/PDF/Figma, or reference website inputs mentioned in this
+     request.
 
 2. Classify the change as one of:
    - QA-only triage.
@@ -26,8 +28,11 @@ Process:
    - For a new release after MVP 1 or an accepted release, 2-3 next-build
      options and a recommendation before selecting agents.
    - Docs that will receive appended sections.
+   - Whether `source_inventory.md` needs new source IDs, changed fidelity
+     targets, or updated asset policy.
    - Likely generated-code areas under `project_code/`.
    - Whether Code Review will run before QA.
+   - Whether visual parity checks are required.
    - Ambiguities that would change the plan.
    - A filesystem-safe short title slug for reports.
 
@@ -40,6 +45,9 @@ Process:
    - Spawn only the agents required by the classification.
    - Tell every agent to append to existing docs instead of rewriting prior
      sections.
+   - Update `project_code/documentation/source_inventory.md` first when the
+     change includes new PRD files, screenshots, Figma frames, or reference
+     website URLs. Assign new source IDs and preserve prior source history.
    - Keep the change scoped to the target release/module unless I explicitly
      expand scope.
    - Run Code Review before QA whenever application code changed. Critical
@@ -52,18 +60,21 @@ Process:
      `project_code/documentation/user_acceptance_bug_<short-title-slug>.md`.
 
 6. QA must run regression for every flow sharing code with the changed area, not
-   only the new behavior. If regression fails, QA records evidence, severity,
-   and likely owner; Team Lead assigns the fix to the appropriate agent or user
-   config owner. After the owner fixes the issue, QA reruns the failed tests plus
-   affected regression scope before reporting PASS. If it cannot be fixed within
-   the scoped change, write the current QA status, blockers, and recommended
-   next agent handoff in the task board and change report.
+   only the new behavior. When the change touches UI reference sources, QA must
+   also rerun the affected visual parity checks from `design_spec.md`. If
+   regression fails, QA records evidence, severity, and likely owner; Team Lead
+   assigns the fix to the appropriate agent or user config owner. After the
+   owner fixes the issue, QA reruns the failed tests plus affected regression
+   scope before reporting PASS. If it cannot be fixed within the scoped change,
+   write the current QA status, blockers, and recommended next agent handoff in
+   the task board and change report.
 
 7. After QA passes, write
    `project_code/documentation/change_report_<short-title-slug>.md` with:
    - What changed.
    - Which agents ran.
    - QA results and regression deltas versus the previous `qa_report.md`.
+   - Source coverage and visual parity deltas when applicable.
    - Files touched, paths only.
    - Release plan/status update made by PO, when PO ran.
 

@@ -14,6 +14,7 @@ Task from user:
 $ARGUMENTS
 ```
 
-QA must not edit production code. QA owns verification, triage, evidence, likely
+QA must not edit production code. QA owns verification, visual parity checks
+when UI references exist, source coverage validation, triage, evidence, likely
 owner recommendation, and reruns after the assigned owner fixes issues. Record
 the QA handoff and report paths in `agent_team/task_board.md`.

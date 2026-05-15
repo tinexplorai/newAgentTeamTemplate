@@ -27,10 +27,10 @@ Generated project code and deliverables live under `project_code/`.
 
 | Agent | Default model | Role |
 | --- | --- | --- |
-| Team Lead | `opus` | Orchestrates workflow and reports |
+| Team Lead | `opus` | Orchestrates workflow, source intake, and reports |
 | PO Agent | `opus` | Requirements and user stories |
 | TechLead Agent | `opus` | API contract and architecture |
-| Designer Agent | `sonnet` | UI/UX specification |
+| Designer Agent | `opus` | UI/UX specification |
 | DEV Agent | `sonnet` | Backend, web frontend, tests |
 | Flutter Agent | `sonnet` | Mobile app, mobile tests |
 | Code Review Agent | `sonnet` | Code review and QA readiness |
@@ -42,23 +42,42 @@ Model assignments are centralized in
 
 ## Canonical Workflow
 
-1. Phase 1 - Requirements: PO writes
-   `project_code/documentation/user_stories.md` with a release plan when needed.
-2. Phase 2 - Design and architecture: TechLead and Designer run in parallel.
+1. Phase 0 - Source intake: Team Lead writes
+   `project_code/documentation/source_inventory.md` with source IDs, priority,
+   reference website/UI notes, fidelity targets, asset policy, and coverage
+   checklist.
+2. Phase 0a - Input Echo-back: Team Lead presents a single summary message
+   (understanding, inputs detected, MVP 1 scope, critical assumptions,
+   smart-default decisions, ambiguities, batched `[PLACEHOLDER]` asks,
+   autonomy plan) and waits for `go` before spawning PO. This is the cheapest
+   place to catch a misunderstanding before the long pipeline.
+3. Phase 1 - Requirements: PO writes
+   `project_code/documentation/user_stories.md` with a release plan and source
+   coverage when needed.
+4. Phase 2 - Design and architecture: TechLead and Designer run in parallel.
    TechLead writes `api_contract.md` and optionally `tech_design.md`;
-   Designer writes `design_spec.md`.
-3. Phase 3 - Implementation: DEV builds web/backend under `project_code/`.
+   Designer writes `design_spec.md` with a Copy Manifest and Visual Parity
+   Contract when UI references exist.
+5. Phase 3 - Implementation: DEV builds web/backend under `project_code/`.
    Flutter builds `project_code/mobile/` when mobile is in scope.
-4. Phase 3.5 - Code review: Code Review writes `code_review.md` when
+6. Phase 3.5 - Code review: Code Review writes `code_review.md` when
    application code changed.
-5. Phase 4 - QA: QA runs local automated tests and writes `qa_report.md`.
-6. Phase 5 - Interim gate: PO updates release status from QA results, then Team
-   Lead writes `interim_report.md` and asks the user before deployment.
-7. Phase 6 - Deployment: DevOps pushes, configures CI/CD, deploys, and writes
+7. Phase 4 - QA: QA runs local automated tests, visual parity checks when UI
+   references exist, and writes `qa_report.md`.
+8. Phase 5 - Interim gate: PO updates release status from QA results, then Team
+   Lead writes `interim_report.md` with local test instructions, source/visual
+   coverage, and asks the user before deployment.
+9. Phase 6 - Deployment: DevOps pushes, configures CI/CD, deploys, and writes
    `deployment.md`. This phase requires explicit user approval.
-8. Phase 7 - Final report: Team Lead writes `final_report.md`.
-9. Next release decision: Team Lead presents 2-3 next-build options before
-   starting the next module/release.
+10. Phase 7 - Final report: Team Lead writes `final_report.md`.
+11. Next release decision: Team Lead presents 2-3 next-build options before
+    starting the next module/release.
+
+In `autonomous` mode (default in the project spec template), the only required
+user touchpoints between kickoff and deployment are Phase 0a Echo-back, the
+Phase 5 interim gate, and any unresolvable `[PLACEHOLDER]` batch. `N/A` fields
+are resolved from
+[`agent_team/defaults.md`](agent_team/defaults.md) instead of asking.
 
 Full details are in [`agent_team/workflow.md`](agent_team/workflow.md).
 
@@ -97,6 +116,9 @@ Edit
 - Goals, scope, and other fields may stay `N/A` for agents to propose.
 - Release strategy, MVP 1 scope, later-release ideas, and local acceptance
   checks.
+- Reference website URLs, UI fidelity target (`Exact`, `Close`, or `Inspired`),
+  viewport/device targets, source priority, asset-use permission, and
+  brand/copy exactness when you want the team to match a PNG/Figma/web page.
 - Web/mobile targets.
 - Backend, frontend, database, testing, integrations, and deployment intent.
 - Runtime secret variable names; actual secret values and concrete
@@ -109,6 +131,10 @@ Edit
   `project_setup/step_2_requirements/`.
 - Designs: drop PDF, PNG, JPG, or WebP design exports into
   `project_setup/step_3_design/`.
+- Reference websites: add the URL and desired fidelity target to
+  `project_setup/step_1_project/step_1_project.md`. You can also add notes such
+  as route list, login steps, or "use this as visual inspiration only" in
+  `project_setup/step_2_requirements/`.
 
 ### 6. Configure MCP and Environment Values
 
@@ -180,9 +206,9 @@ agent_team/
 
 project_code/
   documentation/
-    sample_deliverable/
-  backend/                     # Created by DEV Agent when applicable
-  frontend/                    # Created by DEV Agent when applicable
+    source_inventory.md         # Created by Team Lead at kickoff
+  app/                         # Web app (fullstack or SPA), created by DEV
+  api/                         # Optional separate Node API, created by DEV
   mobile/                      # Created by Flutter Agent when applicable
 
 .claude/
@@ -211,9 +237,8 @@ The Team Lead classifies the change and reruns only the required agents.
 
 ## Examples
 
-Sample outputs are available in
-`project_code/documentation/sample_deliverable/`, and a sample board is available
-at [`agent_team/sample_task_board.md`](agent_team/sample_task_board.md).
+A sample task board is available at
+[`agent_team/sample_task_board.md`](agent_team/sample_task_board.md).
 
 ## License
 

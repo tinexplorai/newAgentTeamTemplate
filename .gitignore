@@ -10,6 +10,9 @@
 google-services.json
 GoogleService-Info.plist
 
+# Project-level Claude Code permissions (may contain creds/paths)
+.claude/settings.local.json
+
 # Node / JavaScript
 node_modules/
 dist/

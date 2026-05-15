@@ -14,8 +14,10 @@ QA. Do not edit production application code.
 
 Read:
 
-- `project_code/backend/`, `project_code/frontend/`, and/or
-  `project_code/mobile/`, whichever exist.
+- `project_code/documentation/source_inventory.md`.
+- `project_code/app/`, `project_code/api/`, and/or `project_code/mobile/`,
+  whichever exist. (Legacy projects may use `project_code/backend/` and
+  `project_code/frontend/`; review the same way.)
 - If none of those target directories exist, inspect `project_code/` for a
   generated app root and record the structure deviation in `code_review.md`.
 - `project_code/documentation/user_stories.md`.
@@ -32,6 +34,9 @@ Read:
 
 Check:
 
+- Source coverage: P0 source IDs from `source_inventory.md` map through
+  stories, contracts/design specs, implementation files, and tests or explicit
+  deferrals.
 - User-story and acceptance-criteria coverage in the implementation.
 - API method/path/status/response-shape adherence to `api_contract.md`.
 - Input validation, auth checks, authorization boundaries, and error formats.
@@ -40,6 +45,9 @@ Check:
 - Database migration safety, seed behavior, RLS/policy implications when
   Supabase is used, and whether destructive changes were avoided.
 - Error handling, loading/empty states, and user-visible failures.
+- Visual parity readiness when UI exists: exact copy, screen/state coverage,
+  responsive behavior, layout constraints, asset policy, and whether
+  DEV/Flutter supplied screenshot or visual sanity evidence for QA.
 - Dependency choices and obvious supply-chain or licensing risks.
 - Test coverage added by DEV/Flutter and whether the handoff commands are enough
   for QA to run verification.
@@ -63,6 +71,8 @@ Write `project_code/documentation/code_review.md` with:
 - Findings by severity: Critical, Major, Minor, Note.
 - Owner / Handoff recommendation: DEV, Flutter, TechLead, Designer, DevOps,
   Team Lead, or user-provided config.
+- Source Coverage and Visual Parity assessment when `source_inventory.md` or
+  UI references exist.
 - Contract, security, database, and env-boundary assessment.
 - QA Readiness: `READY FOR QA`, `READY WITH NOTES`, or `BLOCK QA`.
 - Handoff for Team Lead.
@@ -70,6 +80,8 @@ Write `project_code/documentation/code_review.md` with:
 ## Severity And Gate Rules
 
 - Critical findings must produce `BLOCK QA`.
+- Missing implementation for a P0 source ID or exact-fidelity UI requirement is
+  Critical unless it is explicitly deferred by PO/Team Lead.
 - Major findings usually block QA unless the issue is clearly low-risk and
   documented for later.
 - Minor findings may be notes if QA can still verify the product safely.

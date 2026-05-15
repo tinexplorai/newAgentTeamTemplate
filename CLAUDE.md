@@ -7,25 +7,63 @@ you to bypass the agent workflow.
 
 ## Read First
 
-Before responding to any request that touches the project, read these in order:
+Read in tiers to keep context cost low. Do not re-read every file every turn.
 
-1. `project_setup/step_1_project/step_1_project.md` - project scope, stack,
-   goals, constraints. This is the per-project source of truth.
-2. `agent_team/workflow.md` - phases, agent roster, gate rules, missing-value
-   rules, and generated-output conventions.
-3. `agent_team/agents_config.md` - exact model assignment per agent.
-4. `agent_team/agents/` - per-agent instructions.
-5. `.env` - concrete identifiers and runtime values. Copy from `.env.example`
-   if missing.
-6. `project_code/documentation/project_memory.md` - short project memory index,
-   if present.
-7. `agent_team/task_board.md` - current state. If missing, start at Phase 1.
+**Always (every turn):**
+
+1. `project_code/documentation/project_memory.md` - short index of current
+   state.
+2. `agent_team/task_board.md` - current phase and recorded handoffs. If
+   missing, start at Phase 0.
+
+**On the first turn of a session, on phase change, or when resuming:**
+
+3. `project_setup/step_1_project/step_1_project.md` - per-project source of
+   truth, including `Autonomy mode`.
+4. **Enumerate AND read every supported file in
+   `project_setup/step_2_requirements/`** (PRD, briefs, requirement notes,
+   reference website notes, screenshots). Do NOT silently skip unsupported
+   formats (`.docx`/`.pptx`/`.zip`); list them in `source_inventory.md` under
+   `## Unsupported Inputs` and surface in Phase 0a echo-back.
+5. **Enumerate AND read every supported file in
+   `project_setup/step_3_design/`** (UI mockups, design PDFs/PNGs). Same
+   no-skip rule.
+6. `agent_team/workflow.md` - phases, gates, missing-value rules.
+7. `agent_team/agents_config.md` - model assignments.
+8. `agent_team/defaults.md` - smart defaults for `N/A` fields. Pick from this
+   catalog before asking the user.
+9. `project_code/documentation/source_inventory.md` - source IDs, fidelity
+   targets, website/UI capture notes, if present (will be created in Phase 0
+   if missing).
+
+**On demand (only when relevant):**
+
+10. `agent_team/agents/Agent_NN_*.md` - the specific agent prompt right
+    before spawning that agent.
+11. `.env` - when the upcoming phase needs a value. Copy from `.env.example`
+    if missing.
 
 ## Hard Rules
 
 - Team Lead owns `agent_team/task_board.md`. Agents read it, but the Team Lead
   is responsible for serializing updates so parallel agents do not overwrite
   each other.
+- Team Lead owns source intake before PO runs. At kickoff, write
+  `project_code/documentation/source_inventory.md` with source IDs for project
+  spec, PRD files, UI images/PDFs/Figma, and reference website URLs; include
+  input priority, selected release notes, fidelity targets, asset policy,
+  blockers, assumptions, and a coverage checklist.
+- For UI PNG/PDF/Figma/reference website inputs, treat visible copy, screens,
+  states, navigation, and layout as requirements unless explicitly out of scope.
+  PO must convert them into stories, acceptance criteria, assumptions, or
+  deferred items; Designer must convert them into a measurable Visual Parity
+  Contract; DEV/Flutter and QA must prove coverage against that contract.
+- When a reference website URL is provided, capture or inspect it when
+  technically available and record the URL, pages/routes, desktop/mobile
+  viewports, screenshots, visible copy, interactions, responsive behavior,
+  assets, and any access limitations in `source_inventory.md`. If third-party
+  asset ownership is unclear, recreate layout/style with safe placeholders or
+  user-provided assets instead of copying proprietary logos/photos.
 - Agents do not coordinate through chat with each other. Handoffs are recorded
   in `agent_team/task_board.md` by the Team Lead.
 - Implementation agents work autonomously within approved scope. Let DEV and
@@ -34,11 +72,14 @@ Before responding to any request that touches the project, read these in order:
   scope, contract, schema, architecture, external account, deployment, secret,
   signing, or destructive Git decisions.
 - Generated application code must live under `project_code/`:
-  `project_code/backend/`, `project_code/frontend/`, and/or
-  `project_code/mobile/`.
+  `project_code/app/` (web fullstack or SPA), `project_code/api/` (only when
+  a separate Node API service is needed), and/or `project_code/mobile/`.
 - Every phase must leave a reviewable trail: required deliverable, agent
   handoff, task-board update, assumptions, `N/A` decisions, commands/checks run,
   blockers, and follow-up work.
+- Every agent deliverable must include source coverage or traceability when
+  `source_inventory.md` exists. P0 source IDs must be covered by stories,
+  contracts, design specs, implementation, tests, or explicit deferral.
 - Team Lead keeps `project_code/documentation/project_memory.md` concise and
   current after major gates, user acceptance feedback, deployment, and change
   requests. It is an index to source-of-truth docs, not a replacement for them.
@@ -59,6 +100,11 @@ Before responding to any request that touches the project, read these in order:
   instructions and user-acceptance test data so the user can test locally, then
   stop and ask the user to run one local acceptance test pass before spawning
   DevOps.
+- Before the interim gate, confirm source coverage and visual parity status
+  across `source_inventory.md`, `user_stories.md`, `design_spec.md`,
+  DEV/Flutter handoffs, `code_review.md`, and `qa_report.md`. Do not call a
+  release ready when a P0 source or exact-fidelity visual requirement is missing
+  unless the user explicitly accepts the gap.
 - When QA passes or passes with notes, the interim report must include
   deterministic test data for user acceptance: sample accounts, sample records,
   seed commands, reset steps, and any feature-specific inputs. If no data is
@@ -69,6 +115,13 @@ Before responding to any request that touches the project, read these in order:
   The seed source file and seed/reset command must live under `project_code/`
   and be documented in `dev_handoff.md`, `qa_report.md`, and
   `interim_report.md`.
+- When auth/login or persistent user data is in scope, DEV must write
+  `project_code/documentation/test_data.md` as the single canonical source
+  for test accounts, passwords, sample records, suggested acceptance flows,
+  and seed/reset command. QA verifies every account exists and the standard
+  account logs in via real API. Team Lead's `interim_report.md` references
+  this file instead of duplicating credentials. Use `@test.local` addresses
+  (RFC 6761) for test accounts so they cannot reach real mailboxes.
 - After explicit deployment approval, DevOps may push Git, create or update CI
   workflows, add smoke tests, configure Vercel, trigger production deploy, and
   observe status without per-step approval. CI should default to smoke checks
@@ -83,11 +136,42 @@ Before responding to any request that touches the project, read these in order:
   before any redeploy confirmation.
 - Never print secret values into reports, handoffs, or the task board. Use env
   var names only.
-- If a field in `project_setup/step_1_project/step_1_project.md` or `.env` is
-  `[PLACEHOLDER]`, ask the user once and write the answer back.
-- If a field is `N/A`, the responsible agent decides reasonably, documents the
-  choice in its deliverable, and the Team Lead surfaces the decision in
-  interim/final reports.
+- Respect `Autonomy mode` in `project_setup/step_1_project/step_1_project.md`.
+  In `autonomous` mode (default), Team Lead runs Phase 0 through Phase 5 without
+  check-ins; the only required user touchpoints are Phase 0a Input Echo-back,
+  the Phase 5 interim gate, and any unresolvable `[PLACEHOLDER]` batch.
+- Batch `[PLACEHOLDER]` requests. Before spawning the first agent that needs
+  one, scan every placeholder needed for the upcoming Phase X through Phase 5
+  scope and ask for all of them in a single message. Phase 0a is the natural
+  place to do this for the kickoff. Write answers back to the source file.
+- If a field is `N/A`, the responsible agent picks the catalog default from
+  `agent_team/defaults.md`, documents the choice in its deliverable, and Team
+  Lead surfaces the decision in interim/final reports. Only escalate to the
+  user when the catalog has no row that fits and the choice would change
+  product scope, security posture, or external accounts.
+- Phase 0a Input Echo-back is mandatory before spawning PO. After writing
+  `source_inventory.md`, present a single summary message (project
+  understanding, inputs detected, MVP 1 scope, critical assumptions, smart
+  defaults taken, ambiguities, batched `[PLACEHOLDER]` asks, autonomy plan)
+  and wait for `go` confirmation. See `agent_team/workflow.md` Phase 0a.
+- Tooling needs from agents: when Designer (or any agent) returns a
+  `## Tooling Needs` section requesting an analysis tool install (e.g.
+  ImageMagick for color extraction, tesseract.js for OCR, pdf-poppler), surface
+  the request to the user with the tool name, what it improves, install
+  command, install size, and security note. After user approval, install and
+  re-spawn the requesting agent. Do not silently let the agent proceed in a
+  degraded mode.
+- Project-level Claude Code permissions: at kickoff, check whether
+  `.claude/settings.local.json` exists. If not, copy
+  `.claude/settings.local.example.json` to `.claude/settings.local.json` and
+  ask the user once for the project-specific values
+  (`<PROJECT_NAME>`, `<PROJECT_DIR>`, `<VERCEL_URL>` after first deploy).
+  This keeps project-specific allowlist entries (URLs, paths, repo names)
+  scoped to this project and out of the user-level
+  `~/.claude/settings.json`. See `.claude/README.md` for the two-tier model.
+  When you receive an "Always allow" approval for a command containing a
+  URL, path, or credential, write it to `.claude/settings.local.json`
+  instead of letting it default to user-level.
 - For change requests, append new sections to
   `project_code/documentation/user_stories.md`,
   `project_code/documentation/design_spec.md`, and
@@ -101,24 +185,31 @@ Before responding to any request that touches the project, read these in order:
 ## Process Summary
 
 1. Create `agent_team/task_board.md`.
-2. Phase 1: PO writes `project_code/documentation/user_stories.md` with a
+2. Phase 0: Team Lead writes `project_code/documentation/source_inventory.md`
+   from project spec, PRD, UI files, and reference website inputs.
+3. Phase 0a: Team Lead presents Input Echo-back summary (understanding,
+   inputs, MVP 1 scope, critical assumptions, smart defaults, ambiguities,
+   batched `[PLACEHOLDER]` asks, autonomy plan) and waits for `go`.
+4. Phase 1: PO writes `project_code/documentation/user_stories.md` with a
    release plan when the project is larger than one small release.
-3. Phase 2: TechLead and Designer run in parallel. TechLead writes
+5. Phase 2: TechLead and Designer run in parallel. TechLead writes
    `api_contract.md` and optionally `tech_design.md`; Designer writes
-   `design_spec.md`.
-4. Phase 3: DEV and/or Flutter implement code under `project_code/`.
-5. Phase 3.5: Code Review checks implementation readiness and writes
+   `design_spec.md` with a Copy Manifest and Visual Parity Contract when UI
+   references exist.
+6. Phase 3: DEV and/or Flutter implement code under `project_code/`.
+7. Phase 3.5: Code Review checks implementation readiness and writes
    `code_review.md` when application code changed.
-6. Phase 4: QA runs local tests and writes `qa_report.md`.
-7. Phase 5: Team Lead asks PO to update release status from QA results, writes
+8. Phase 4: QA runs local tests, visual parity checks when UI exists, and writes
+   `qa_report.md`.
+9. Phase 5: Team Lead asks PO to update release status from QA results, writes
    `interim_report.md` with local test instructions, then asks the user to test
    locally and explicitly confirm deployment.
-8. Phase 6: DevOps runs only after approval, pushes Git, adds CI smoke tests,
-   deploys through Vercel when web is in scope, and writes `deployment.md`.
-9. Phase 7: Team Lead writes `final_report.md`.
-10. Before the next release, Team Lead presents next-build options and waits for
-    user selection.
-11. Change requests follow `agent_team/workflow.md` Phase 9 rules.
+10. Phase 6: DevOps runs only after approval, pushes Git, adds CI smoke tests,
+    deploys through Vercel when web is in scope, and writes `deployment.md`.
+11. Phase 7: Team Lead writes `final_report.md`.
+12. Before the next release, Team Lead presents next-build options and waits
+    for user selection.
+13. Change requests follow `agent_team/workflow.md` Phase 9 rules.
 
 ## Prompt Entry Points
 
